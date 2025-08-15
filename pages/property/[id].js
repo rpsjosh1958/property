@@ -1,6 +1,6 @@
 import { Box, Avatar, Flex, Spacer, Text } from '@chakra-ui/react';
 import millify from 'millify';
-import { baseUrl, fetchApi } from '../../utils/fetchApi';
+import { sampleProperties } from '../../utils/sampleData';
 import { GoVerified } from 'react-icons/go';
 import ImageScrollbar from '../../components/ImageScrollbar';
 import { FaBath, FaBed } from 'react-icons/fa';
@@ -13,12 +13,12 @@ const PropertyDetails = ({ propertyDetails: { price, rentFrequency, rooms, title
             <Flex paddingTop='2' alignItems='center'>
                 <Box paddingRight='3' color='green.400'>{isVerified && <GoVerified />}</Box>
                 <Text fontWeight='bold' fontSize='lg'>
-                    ₹ {price} {rentFrequency && `/${rentFrequency}`}
+                    £ {price} {rentFrequency && `/${rentFrequency}`}
                 </Text>
                 <Spacer />
                 <Avatar size='sm' src={agency?.logo?.url}></Avatar>
             </Flex>
-            <Flex alignItems='center' p='1' justifyContent='space-between' w='250px' color='blue.400'>
+            <Flex alignItems='center' p='1' justifyContent='space-between' w='250px' color='yellow.500'>
                 {rooms}<FaBed /> | {baths} <FaBath /> | {millify(area)} sqft <BsGridFill />
             </Flex>
         </Box>
@@ -55,7 +55,7 @@ const PropertyDetails = ({ propertyDetails: { price, rentFrequency, rooms, title
             <Flex flexWrap='wrap'>
                 {amenities?.map((item) => (
                     item?.amenities?.map((amenity) => (
-                        <Text key={amenity.text} fontWeight='bold' color='blue.400' fontSize='l' p='2' bg='gray.200' m='1' borderRadius='5'>
+                        <Text key={amenity.text} fontWeight='bold' color='black' fontSize='l' p='2' bg='yellow.100' m='1' borderRadius='5'>
                             {amenity.text}
                         </Text>
                     ))
@@ -69,11 +69,20 @@ const PropertyDetails = ({ propertyDetails: { price, rentFrequency, rooms, title
 export default PropertyDetails;
 
 export async function getServerSideProps({ params: { id } }) {
-    const data = await fetchApi(`${baseUrl}/properties/detail?externalID=${id}`);
+    // Find property in sample data by externalID
+    const allProperties = [...sampleProperties.propertiesForRent, ...sampleProperties.propertiesForSale];
+    const property = allProperties.find(prop => prop.externalID === id);
+    
+    // If property not found, return a default property or 404
+    if (!property) {
+        return {
+            notFound: true,
+        };
+    }
+    
     return {
         props: {
-            propertyDetails: data
-
+            propertyDetails: property
         }
     };
 };

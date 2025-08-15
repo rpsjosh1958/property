@@ -2,9 +2,9 @@ import { Box } from '@chakra-ui/react';
 
 const Footer = () => (
     <Box textAlign='center' p='5' color='gray.600'>
-        Made by Arindam Kashyap by fetching data from Rapid api
+        D&M Letting 
         <br />
-        &copy; 2024 
+        &copy; 2025
     </Box>
 );
 

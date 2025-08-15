@@ -9,7 +9,7 @@ const Banner = ({ purpose, title1, title2, desc1, desc2, buttonText, linkName, i
             <Text color='gray.500' fontSize='sm' fontWeight='medium'>{purpose}</Text>
             <Text fontSize='3xl' fontWeight='bold'>{title1}<br />{title2}</Text>
             <Text fontSize='lg' paddingTop='3' paddingBottom='3' color='gray.700'>{desc1}<br />{desc2}</Text>
-            <Button fontSize='xl' bg="red.300" color="white">
+            <Button fontSize='xl' bg="yellow.400" color="black" _hover={{ bg: 'yellow.500' }}>
                 <Link href={linkName}><a>{buttonText}</a></Link>
             </Button>
         </Box>

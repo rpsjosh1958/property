@@ -7,13 +7,15 @@ export default function Layout({ children }) {
     return (
         <>
             <Head>
-                <title>Real Estate</title>
+                <title>D&M Letting CO Ltd |  Property solutions tailored for property owners, real estate agents, and tenants.</title>
             </Head>
-            <Box maxWidth='1280px' m='auto'>
+            <Box>
                 <header>
                     <Navbar />
                 </header>
-                <main>{children}</main>
+                <Box as="main" pt="80px">
+                    {children}
+                </Box>
                 <footer>
                     <Footer />
                 </footer>

@@ -25,7 +25,7 @@ const Property = ({ property: { coverPhoto, rooms, isVerified, title, baths, sco
 
             <Box p="6">
                 <Box display="flex" alignItems="baseline">
-                    <Badge rounded="full" px="2" colorScheme="red">
+                    <Badge rounded="full" px="2" colorScheme="yellow" bg="yellow.400" color="black">
                         New
                     </Badge>
                     <Box
@@ -50,7 +50,7 @@ const Property = ({ property: { coverPhoto, rooms, isVerified, title, baths, sco
                     lineHeight="tight"
                     noOfLines={1}
                 >
-                    ₹
+                    £
                     {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     {rentFrequency && `/${rentFrequency}`}
                 </Text>
@@ -65,7 +65,7 @@ const Property = ({ property: { coverPhoto, rooms, isVerified, title, baths, sco
                         .map((_, i) => (
                             < StarIcon
                                 key={i}
-                                color={i < (randBoostScore / 100) ? "red.500" : "gray.300"}
+                                color={i < (randBoostScore / 100) ? "yellow.500" : "gray.300"}
                             />
                         ))}
                     <Box as="span" ml="2" color="gray.600" fontSize="sm">
