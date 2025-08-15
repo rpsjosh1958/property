@@ -41,7 +41,7 @@ const ContactSection = () => {
                             maxW="2xl"
                         >
                             Ready to find your dream property or need expert advice? 
-                            Contact us today and let's discuss your property needs.
+                            Contact us today and let&apos;s discuss your property needs.
                         </Text>
                     </VStack>
 
@@ -76,8 +76,8 @@ const ContactSection = () => {
                                     justifyContent="center"
                                 >
                                     <VStack spacing={2} color="white" textAlign="center">
-                                        <Heading size="lg">Let's Connect</Heading>
-                                        <Text fontSize="lg">We're here to help you</Text>
+                                        <Heading size="lg">Let&apos;s Connect</Heading>
+                                        <Text fontSize="lg">We&apos;re here to help you</Text>
                                     </VStack>
                                 </Box>
                             </Box>
@@ -150,7 +150,7 @@ const ContactSection = () => {
                                         Send us a Message
                                     </Heading>
                                     <Text color="gray.300">
-                                        Fill out the form below and we'll get back to you within 24 hours
+                                        Fill out the form below and we&apos;ll get back to you within 24 hours
                                     </Text>
                                 </VStack>
 
@@ -219,7 +219,7 @@ const ContactSection = () => {
                                     </FormControl>
 
                                     <FormControl>
-                                        <FormLabel color="white" fontWeight="medium">I'm interested in</FormLabel>
+                                        <FormLabel color="white" fontWeight="medium">I&apos;m interested in</FormLabel>
                                         <Select
                                             placeholder="Select an option"
                                             borderColor="gray.600"

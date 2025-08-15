@@ -121,7 +121,7 @@ const WhatWeOffer = () => {
                             maxW="2xl"
                         >
                             Comprehensive property solutions tailored for property owners, real estate agents, and tenants. 
-                            We're here to make property management and finding your perfect home effortless.
+                            We&apos;re here to make property management and finding your perfect home effortless.
                         </Text>
                     </VStack>
 
