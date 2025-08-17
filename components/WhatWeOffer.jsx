@@ -86,7 +86,7 @@ const WhatWeOffer = () => {
         },
         {
             title: "For Real Estate Agents", 
-            description: "We're constantly looking to work alongside experienced agents. We can take on multiple properties and offer your clients all the benefits of long-term guaranteed rent. This partnership works great for everyone involved - agents, landlords, and tenants alike.",
+            description: "We&apos;re constantly looking to work alongside experienced agents. We can take on multiple properties and offer your clients all the benefits of long-term guaranteed rent. This partnership works great for everyone involved - agents, landlords, and tenants alike.",
             imageSrc: "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
             icon: FaHandshake,
             buttonText: "Partner With Us",

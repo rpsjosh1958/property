@@ -6,7 +6,7 @@ import { BsFilter } from 'react-icons/bs';
 import SearchFilterComponent from '../components/SearchFilterComponent';
 import Property from '../components/Property';
 import noresult from '../assets/images/noresult.svg';
-import { sampleProperties } from '../utils/sampleData';
+import { getPropertiesByPurpose, transformFirebaseProperty } from '../utils/firebaseService';
 
 const Search = ({ properties }) => {
     const [searchFilters, setSearchFilters] = useState(false);
@@ -41,7 +41,7 @@ const Search = ({ properties }) => {
 
             {properties.length === 0 && (
                 <Flex justifyContent='center' alignItems='center' flexDir='column' marginTop='5' marginBottom='5'>
-                    <Image src={noresult} alt="No Result" />
+                    <Image src={noresult} alt="No Result" width={400} height={300} />
                     <Text fontSize='xl' marginTop='3'>No Result Found.</Text>
                 </Flex>
             )}
@@ -54,15 +54,23 @@ const Search = ({ properties }) => {
 export async function getServerSideProps({ query }) {
     const purpose = query.purpose || 'for-rent';
     
-    // Filter sample properties based on purpose
-    const allProperties = [...sampleProperties.propertiesForRent, ...sampleProperties.propertiesForSale];
-    const filteredProperties = allProperties.filter(property => property.purpose === purpose);
-    
-    return {
-        props: {
-            properties: filteredProperties,
-        },
-    };
+    try {
+        // Fetch properties from Firebase based on purpose
+        const properties = await getPropertiesByPurpose(purpose);
+        
+        return {
+            props: {
+                properties: properties.map(transformFirebaseProperty),
+            },
+        };
+    } catch (error) {
+        console.error('Error fetching properties:', error);
+        return {
+            props: {
+                properties: [],
+            },
+        };
+    }
 }
 
 export default Search;

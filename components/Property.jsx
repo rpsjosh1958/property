@@ -4,24 +4,36 @@ import { Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { GoVerified } from 'react-icons/go';
 
-const Property = ({ property: { coverPhoto, rooms, isVerified, title, baths, score_l1, price, randBoostScore, rentFrequency, externalID } }) => (
-    <Link href={`/property/${externalID}`} passHref >
-        <Box
-            bg="white"
-            _dark={{ bg: "gray.800" }}
-            maxW="sm"
-            borderWidth="1px"
-            roundedTop="md"
-            padding={23}
-            shadow="lg"
-            style={{ cursor: 'pointer' }}
-            _hover={{ transform: 'scale(1.02)' }}
-        >
-            <Image
-                src={coverPhoto.url}
-                alt='property'
-                roundedTop="lg"
-            />
+const Property = ({ property: { id, coverPhoto, photos, rooms, isVerified, title, baths, score_l1, price, randBoostScore, rentFrequency, externalID } }) => {
+    // Use Firebase document ID for the link, fall back to externalID for compatibility
+    const propertyId = id || externalID;
+    
+    // Get the first photo from either coverPhoto or photos array
+    const imageUrl = coverPhoto?.url || (photos && photos.length > 0 ? photos[0]?.url : null);
+    
+    return (
+        <Link href={`/property/${propertyId}`} passHref >
+            <Box
+                bg="white"
+                _dark={{ bg: "gray.800" }}
+                maxW="sm"
+                borderWidth="1px"
+                roundedTop="md"
+                padding={23}
+                shadow="lg"
+                style={{ cursor: 'pointer' }}
+                _hover={{ transform: 'scale(1.02)' }}
+            >
+                {imageUrl && (
+                    <Image
+                        src={imageUrl}
+                        alt='property'
+                        roundedTop="lg"
+                        width="100%"
+                        height="200px"
+                        objectFit="cover"
+                    />
+                )}
 
             <Box p="6">
                 <Box display="flex" alignItems="baseline">
@@ -75,6 +87,7 @@ const Property = ({ property: { coverPhoto, rooms, isVerified, title, baths, sco
             </Box>
         </Box>
     </Link>
-);
+    );
+};
 
-export default Property;;
+export default Property;

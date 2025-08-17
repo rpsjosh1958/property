@@ -1,6 +1,6 @@
 import { Flex, Box, Heading, Text, Container, VStack, useColorModeValue } from '@chakra-ui/react';
 import Property from '../components/Property';
-import { sampleProperties } from '../utils/sampleData';
+import { getPropertiesByPurpose, transformFirebaseProperty } from '../utils/firebaseService';
 import HeroSection from '../components/HeroSection';
 import CardSection from '../components/CardSection';
 import Banner from '../components/Banner';
@@ -78,14 +78,27 @@ const Home = ({ propertiesForSale, propertiesForRent }) => (
   </Box>
 );
 
-export async function getStaticProps() {
-  // Using sample data instead of API calls
-  return {
-    props: {
-      propertiesForSale: sampleProperties.propertiesForSale,
-      propertiesForRent: sampleProperties.propertiesForRent,
-    },
-  };
+export async function getServerSideProps() {
+  try {
+    // Fetch properties from Firebase
+    const propertiesForSale = await getPropertiesByPurpose('for-sale');
+    const propertiesForRent = await getPropertiesByPurpose('for-rent');
+
+    return {
+      props: {
+        propertiesForSale: propertiesForSale.map(transformFirebaseProperty),
+        propertiesForRent: propertiesForRent.map(transformFirebaseProperty),
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    return {
+      props: {
+        propertiesForSale: [],
+        propertiesForRent: [],
+      },
+    };
+  }
 }
 
 export default Home;

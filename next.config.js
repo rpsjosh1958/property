@@ -7,7 +7,8 @@ const nextConfig = {
       'bayut-production.s3.eu-central-1.amazonaws.com',
       'media-cldnry.s-nbcnews.com',
       'images.unsplash.com',
-      'avatars0.githubusercontent.com'
+      'avatars0.githubusercontent.com',
+      'firebasestorage.googleapis.com'
     ]
   }
 };

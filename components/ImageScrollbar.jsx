@@ -1,47 +1,122 @@
-import { useContext } from 'react';
-import Image from 'next/image';
-import { Box, Icon, Flex } from '@chakra-ui/react';
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
+import { useState } from 'react';
+import { Box, IconButton, Flex, HStack, Image } from '@chakra-ui/react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-const LeftArrow = () => {
-    const { scrollPrev } = useContext(VisibilityContext);
+export default function ImageScrollbar({ data }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    if (!data || data.length === 0) {
+        return null;
+    }
+
+    const goToPrevious = () => {
+        setCurrentIndex((prevIndex) => 
+            prevIndex === 0 ? data.length - 1 : prevIndex - 1
+        );
+    };
+
+    const goToNext = () => {
+        setCurrentIndex((prevIndex) => 
+            prevIndex === data.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const goToSlide = (index) => {
+        setCurrentIndex(index);
+    };
+
     return (
-        <Flex justifyContent='center' alignItems='center' marginRight='1'>
-            <Icon
-                as={FaArrowAltCircleLeft}
-                onClick={() => scrollPrev()}
-                fontSize='2xl'
-                cursor='pointer'
-                d={['none', 'none', 'none', 'block']}
+        <Box position="relative" width="100%" height="400px" borderRadius="lg" overflow="hidden">
+            {/* Main Image */}
+            <Image
+                src={data[currentIndex].url}
+                alt={`Property image ${currentIndex + 1}`}
+                width="100%"
+                height="100%"
+                objectFit="cover"
+                borderRadius="lg"
             />
-        </Flex>
-    );
-};
 
-const RightArrow = () => {
-    const { scrollNext } = useContext(VisibilityContext);
-    return (
-        <Flex justifyContent='center' alignItems='center' marginLeft='1'>
-            <Icon
-                as={FaArrowAltCircleRight}
-                onClick={() => scrollNext()}
-                fontSize='2xl'
-                cursor='pointer'
-                d={['none', 'none', 'none', 'block']}
-            />
-        </Flex>
-    );
-};
+            {/* Navigation Arrows */}
+            {data.length > 1 && (
+                <>
+                    <IconButton
+                        icon={<FaChevronLeft />}
+                        position="absolute"
+                        left="4"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        onClick={goToPrevious}
+                        bg="blackAlpha.600"
+                        color="white"
+                        _hover={{ bg: "blackAlpha.800" }}
+                        borderRadius="full"
+                        size="lg"
+                        aria-label="Previous image"
+                    />
+                    <IconButton
+                        icon={<FaChevronRight />}
+                        position="absolute"
+                        right="4"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        onClick={goToNext}
+                        bg="blackAlpha.600"
+                        color="white"
+                        _hover={{ bg: "blackAlpha.800" }}
+                        borderRadius="full"
+                        size="lg"
+                        aria-label="Next image"
+                    />
+                </>
+            )}
 
-export default function ImageSrollbar({ data }) {
-    return (
-        <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow} style={{ overflow: 'hidden' }} >
-            {data.map((item) => (
-                <Box width='910px' itemId={item.id} overflow='hidden' p='1' key={item.id}>
-                    <Image placeholder="blur" blurDataURL={item.url} src={item.url} width={1000} height={500} sizes="(max-width: 500px) 100px, (max-width: 1023px) 400px, 1000px" alt="proprty image" />
+            {/* Dots Indicator */}
+            {data.length > 1 && (
+                <HStack
+                    position="absolute"
+                    bottom="4"
+                    left="50%"
+                    transform="translateX(-50%)"
+                    spacing="2"
+                    bg="blackAlpha.600"
+                    borderRadius="full"
+                    px="4"
+                    py="2"
+                >
+                    {data.map((_, index) => (
+                        <Box
+                            key={index}
+                            width="8px"
+                            height="8px"
+                            borderRadius="full"
+                            bg={index === currentIndex ? "yellow.400" : "whiteAlpha.600"}
+                            cursor="pointer"
+                            onClick={() => goToSlide(index)}
+                            transition="all 0.2s"
+                            _hover={{ bg: index === currentIndex ? "yellow.500" : "whiteAlpha.800" }}
+                        />
+                    ))}
+                </HStack>
+            )}
+
+            {/* Image Counter */}
+            {data.length > 1 && (
+                <Box
+                    position="absolute"
+                    top="4"
+                    right="4"
+                    bg="blackAlpha.700"
+                    color="white"
+                    px="3"
+                    py="1"
+                    borderRadius="full"
+                    fontSize="sm"
+                    fontWeight="medium"
+                >
+                    {currentIndex + 1} / {data.length}
                 </Box>
-            ))}
-        </ScrollMenu>
+            )}
+        </Box>
     );
 }
