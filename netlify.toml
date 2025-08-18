@@ -5,6 +5,8 @@
   NODE_VERSION = "20"
   # Disable secrets scanning for Next.js public environment variables
   SECRETS_SCAN_ENABLED = "false"
+  # Ensure Next.js can access environment variables during build
+  NODE_ENV = "production"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
@@ -14,3 +16,10 @@
 
 [context.deploy-preview.environment]
   NODE_ENV = "production"
+
+# Ensure environment variables are available at runtime
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
