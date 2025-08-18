@@ -15,9 +15,59 @@ import {
 	Badge,
 	SimpleGrid,
   } from '@chakra-ui/react';
+  import { useState, useEffect } from 'react';
   import { Link as ScrollLink } from "react-scroll";
   import { AiOutlineArrowRight, AiOutlineHome, AiOutlineStar } from 'react-icons/ai';
   import { FiMapPin, FiUsers, FiTrendingUp } from 'react-icons/fi';
+  
+  // Counter animation component
+  const AnimatedCounter = ({ end, duration = 2000, suffix = "" }) => {
+    const [count, setCount] = useState(0);
+    
+    useEffect(() => {
+      let startTime;
+      let animationFrameId;
+      
+      const animate = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const progress = timestamp - startTime;
+        const percentage = Math.min(progress / duration, 1);
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - percentage, 4);
+        const currentCount = Math.floor(end * easeOutQuart);
+        
+        setCount(currentCount);
+        
+        if (percentage < 1) {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      };
+      
+      animationFrameId = requestAnimationFrame(animate);
+      
+      return () => {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      };
+    }, [end, duration]);
+    
+    const formatNumber = (num) => {
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+      } else if (num >= 1000) {
+        return (num / 1000).toFixed(0) + 'K';
+      }
+      return num.toString();
+    };
+    
+    return (
+      <Text fontSize="2xl" fontWeight="bold" color="yellow.500">
+        {formatNumber(count)}{suffix}
+      </Text>
+    );
+  };
   
   export default function CallToActionWithVideo() {
 	const bgGradient = useColorModeValue(
@@ -88,7 +138,7 @@ import {
 					  width: 'full',
 					  height: '4px',
 					  position: 'absolute',
-					  bottom: 2,
+					  bottom: -2,
 					  left: 0,
 					  bg: 'yellow.400',
 					  borderRadius: '2px',
@@ -112,21 +162,21 @@ import {
 			  {/* Stats */}
 			  <SimpleGrid columns={3} spacing={6} w="full" maxW="400px">
 				<VStack spacing={1}>
-				  <Text fontSize="2xl" fontWeight="bold" color="yellow.500">1M+</Text>
+				  <AnimatedCounter end={1000000} suffix="+" />
 				  <Text fontSize="sm" color="gray.500">Properties</Text>
 				</VStack>
 				<VStack spacing={1}>
-				  <Text fontSize="2xl" fontWeight="bold" color="yellow.500">50K+</Text>
+				  <AnimatedCounter end={50000} suffix="+" />
 				  <Text fontSize="sm" color="gray.500">Happy Clients</Text>
 				</VStack>
 				<VStack spacing={1}>
-				  <Text fontSize="2xl" fontWeight="bold" color="yellow.500">98%</Text>
+				  <AnimatedCounter end={98} suffix="%" />
 				  <Text fontSize="sm" color="gray.500">Satisfaction</Text>
 				</VStack>
 			  </SimpleGrid>
 
 			  {/* Buttons */}
-			  <HStack spacing={4} flexWrap="wrap">
+			  <HStack spacing={{ base: 3, md: 4 }} flexWrap="nowrap" justify={{ base: "center", lg: "flex-start" }}>
 				<ScrollLink
 				  activeClass="active"
 				  to="rental-section"
@@ -136,10 +186,10 @@ import {
 				  duration={500}
 				>
 				  <Button
-					size={'lg'}
+					size={{ base: 'md', md: 'lg' }}
 					fontWeight={'600'}
-					px={8}
-					py={6}
+					px={{ base: 4, md: 8 }}
+					py={{ base: 4, md: 6 }}
 					bg="yellow.400"
 					color="black"
 					_hover={{ 
@@ -150,6 +200,7 @@ import {
 					transition="all 0.3s"
 					borderRadius="xl"
 					rightIcon={<AiOutlineArrowRight />}
+					fontSize={{ base: 'sm', md: 'md' }}
 				  >
 					Explore Properties
 				  </Button>
@@ -159,10 +210,10 @@ import {
 				  as="a"
 				  href="https://github.com/Gojodept/Get-Apartments/tree/main"
 				  target="_blank"
-				  size={'lg'}
+				  size={{ base: 'md', md: 'lg' }}
 				  fontWeight={'600'}
-				  px={8}
-				  py={6}
+				  px={{ base: 4, md: 8 }}
+				  py={{ base: 4, md: 6 }}
 				  variant="outline"
 				  borderColor="black"
 				  color="black"
@@ -173,6 +224,7 @@ import {
 				  }}
 				  transition="all 0.3s"
 				  borderRadius="xl"
+				  fontSize={{ base: 'sm', md: 'md' }}
 				>
 				  How It Works
 				</Button>

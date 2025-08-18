@@ -219,7 +219,7 @@ const PropertyForm = ({ property, onClose, onSuccess }) => {
             color="white"
             borderColor="gray.600"
             _focus={{ borderColor: 'yellow.400' }}
-            rows={4}
+            
           />
         </FormControl>
 
