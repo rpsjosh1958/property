@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -15,7 +15,6 @@ import {
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { useAdmin } from '../../hooks/useAdmin';
-import { useEffect } from 'react';
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -23,7 +22,7 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { user, isAdmin, loading: authLoading } = useAdmin();
+  const { user, isAdmin, loading: authLoading, error: authError } = useAdmin();
 
   useEffect(() => {
     if (!authLoading && user && isAdmin) {
