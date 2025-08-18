@@ -22,7 +22,14 @@ A modern, responsive real estate website built with Next.js, Chakra UI, and Fire
 
 - **Frontend**: Next.js, React, Chakra UI
 - **Backend**: Firebase (Firestore, Authentication, Storage)
-- **Deployment**: Ready for Vercel deployment
+- **Node.js**: Version 20+ required (for Firebase AI features)
+- **Deployment**: Ready for Netlify/Vercel deployment
+
+## Prerequisites
+
+- Node.js 20.0.0 or higher
+- npm 9.0.0 or higher
+- Firebase project
 
 ## Setup Instructions
 
@@ -83,7 +90,7 @@ npm run dev
 
 3. **Build settings** (these are configured in `netlify.toml`):
    - Build command: `npm run build`
-   - Node version: 18
+   - Node version: 20 (required for Firebase AI features)
    - The site uses the Netlify Next.js plugin automatically
 
 4. **Deploy**: Netlify will automatically deploy when you push to your main branch
