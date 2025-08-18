@@ -48,8 +48,8 @@ npm install
 cp .env.example .env.local
 ```
 
-2. Update `.env.local` with your actual Firebase configuration:
-```env
+2. Fill in your Firebase configuration values in `.env.local`:
+```bash
 NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key_here
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain_here
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id_here
@@ -59,54 +59,54 @@ NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id_here
 NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id_here
 ```
 
-### 5. Set up Firestore Security Rules
-Apply the security rules from `CORRECTED_RULES.md` to your Firestore database.
-
-### 6. Create Admin User
-Add an admin user to the `admins` collection in Firestore with the structure:
-```json
-{
-  "email": "admin@example.com",
-  "role": "admin",
-  "createdAt": "timestamp"
-}
-```
-
-### 7. Run the development server
+### 5. Development
 ```bash
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see the application.
-
-## Admin Access
-
-Visit `/admin/login` to access the admin dashboard. Use the email address you added to the `admins` collection.
-
-## Project Structure
-
-```
-├── components/          # Reusable UI components
-├── pages/              # Next.js pages
-│   ├── admin/          # Admin dashboard pages
-│   ├── property/       # Property detail pages
-│   └── api/            # API routes
-├── lib/                # Firebase configuration
-├── utils/              # Utility functions
-├── hooks/              # Custom React hooks
-└── styles/             # CSS styles
-```
-
-## Security
-
-- Firebase credentials are stored in environment variables
-- Firestore security rules protect data access
-- Admin authentication required for management features
-- `.env.local` is excluded from version control
-
 ## Deployment
 
-This project is ready for deployment on Vercel. Make sure to:
-1. Add your environment variables to your deployment platform
-2. Update Firestore security rules for production
-3. Configure your Firebase project for your production domain
+### Netlify Deployment
+
+1. **Connect your repository** to Netlify through their dashboard
+
+2. **Set environment variables** in Netlify:
+   - Go to Site settings → Environment variables
+   - Add all the environment variables from your `.env.local` file:
+     - `NEXT_PUBLIC_FIREBASE_API_KEY`
+     - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+     - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+     - `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+     - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+     - `NEXT_PUBLIC_FIREBASE_APP_ID`
+     - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
+
+3. **Build settings** (these are configured in `netlify.toml`):
+   - Build command: `npm run build`
+   - Node version: 18
+   - The site uses the Netlify Next.js plugin automatically
+
+4. **Deploy**: Netlify will automatically deploy when you push to your main branch
+
+### Vercel Deployment
+
+1. **Connect your repository** to Vercel
+2. **Add environment variables** in Vercel dashboard
+3. **Deploy**: Vercel will automatically build and deploy
+
+### Important Notes for Deployment
+
+- All Firebase environment variables must be prefixed with `NEXT_PUBLIC_` to be available in the browser
+- Make sure your Firebase project has the correct CORS settings for your domain
+- The `.env.local` file is not deployed - you must set environment variables in your hosting platform
+- If you get Firebase auth errors during deployment, double-check that all environment variables are correctly set
+
+## Troubleshooting
+
+### Firebase Auth Error During Build
+If you see `Firebase: Error (auth/invalid-api-key)` during deployment:
+
+1. **Check environment variables**: Ensure all Firebase environment variables are set in your hosting platform
+2. **Verify API key**: Make sure the API key is correct and hasn't been regenerated
+3. **Check Firebase project**: Ensure the Firebase project is active and billing is enabled if required
+4. **Domain authorization**: Add your deployment domain to Firebase Authentication → Settings → Authorized domains
