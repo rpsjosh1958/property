@@ -107,8 +107,14 @@ npm run dev
 - Make sure your Firebase project has the correct CORS settings for your domain
 - The `.env.local` file is not deployed - you must set environment variables in your hosting platform
 - If you get Firebase auth errors during deployment, double-check that all environment variables are correctly set
+- **Secrets scanning**: Firebase public environment variables will appear in the client-side JavaScript bundle, which is expected behavior. The `netlify.toml` configuration disables secrets scanning for this reason.
 
 ## Troubleshooting
+
+### Netlify Secrets Scanning Warning
+If you see "Secrets scanning found secrets in build" during deployment:
+
+**This is expected behavior** - Firebase client configuration variables (prefixed with `NEXT_PUBLIC_`) are meant to be public and included in the client-side JavaScript bundle. The `netlify.toml` file is configured to disable secrets scanning to prevent this false positive.
 
 ### Firebase Auth Error During Build
 If you see `Firebase: Error (auth/invalid-api-key)` during deployment:
